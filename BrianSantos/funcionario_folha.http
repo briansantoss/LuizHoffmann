@@ -2,7 +2,7 @@
 
 # FUNCIONÁRIO ######################################
 
-### Criação de um novo funcionário
+### Criação de um novo funcionário, não permite criar o mesmo usuário duas vezes (baseado no CPF)
 POST {{base_url}}/funcionario/cadastrar
 Content-Type: application/json
 

@@ -14,4 +14,15 @@ app.MapPost("/funcionario/cadastrar", ([FromBody] Funcionario funcionarioNovo, [
     return Results.Created("", funcionarioNovo);
 });
 
+app.MapGet("/funcionario/listar", ([FromServices] AppDataContext contexto) =>
+{
+    List<Funcionario> funcionarios  = contexto.Funcionarios.ToList();
+
+    if (funcionarios.Any()) 
+    {
+        return Results.Ok(funcionarios);
+    }
+    return Results.NotFound("Não há funcionários cadastrados em nosso sistema.");
+});
+
 app.Run();

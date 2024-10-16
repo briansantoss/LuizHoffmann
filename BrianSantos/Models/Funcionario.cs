@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace BrianSantos.Models;
 
+[Index("Cpf", IsUnique = true)]
 public class Funcionario
 {
     public int FuncionarioId { get; set; }
