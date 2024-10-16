@@ -30,10 +30,17 @@ app.MapPost("/folha/cadastrar", ([FromBody] Folha folha, [FromServices] AppDataC
 
 app.MapGet("/folha/listar", ([FromServices] AppDataContext contexto) =>
 {
-    List<Folha> folhas = contexto.Folhas.ToList();
-    return Results.Ok(folhas);
+    
 
+    List<Folha> folhas = contexto.Folhas.ToList();
+    if(folhas.Any()){
+        return Results.Ok(folhas);
+    }
+    
+    return Results.NotFound("Erro, nenhuma folha foi encotrado!");
 
 });
+
+
 
 app.Run();
