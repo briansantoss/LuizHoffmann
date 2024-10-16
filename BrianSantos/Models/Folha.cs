@@ -13,6 +13,6 @@ public class Folha{
     public float salarioLiquido {get; set;}
 
     public int FuncionarioId {get; set;}
-    public Funcionario Funcionario {get; set;}
+    public Funcionario Funcionario {get; set;} = null!;
 
 }
