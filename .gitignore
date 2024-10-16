@@ -402,3 +402,6 @@ Migrations
 
 # Database files
 *.db*
+
+# VsCode files
+.vscode/

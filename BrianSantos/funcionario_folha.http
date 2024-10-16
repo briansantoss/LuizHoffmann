@@ -1,4 +1,4 @@
-@base_url = http://localhost:5216/api
+@base_url = http://localhost:5216
 
 # FUNCIONÁRIO ######################################
 
