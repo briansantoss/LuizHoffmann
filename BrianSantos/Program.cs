@@ -14,23 +14,14 @@ app.MapPost("/funcionario/cadastrar", ([FromBody] Funcionario funcionarioNovo, [
     return Results.Created("", funcionarioNovo);
 });
 
-app.MapGet("/funcionario/listar", ([FromServices] AppDataContext contexto) =>
-{
-    List<Funcionario> funcionarios  = contexto.Funcionarios.ToList();
-
-    if (funcionarios.Any()) 
-    {
-        return Results.Ok(funcionarios);
-    }
-    return Results.NotFound("Não há funcionários cadastrados em nosso sistema.");
-});
-
 app.MapPost("/folha/cadastrar", ([FromBody] Folha folha, [FromServices] AppDataContext contexto) =>
 {
     Funcionario? funcionarioAssociado = contexto.Funcionarios.Find(folha.FuncionarioId);
     if(funcionarioAssociado == null){
         return Results.NotFound("Erro, Funcionario não existe!");
     }
+    /*ATUALIZAR SALARIO BRUTO, IMPOSTO DE RENDA, INSS, FGTS, LIQUIDO*/
+    Folha folhaNova = new Folha(folha.valor, folha.quantidade);
     contexto.Folhas.Add(folha);
     contexto.SaveChanges();
     return Results.Created("", folha);
