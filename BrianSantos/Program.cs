@@ -1,6 +1,5 @@
 using BrianSantos.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDataContext>();
@@ -41,6 +40,15 @@ app.MapGet("/folha/listar", ([FromServices] AppDataContext contexto) =>
 
 });
 
+app.MapGet("/folha/buscar/{cpf}/{mes}/{ano}", ([FromRoute] string cpf, [FromRoute] int mes, [FromRoute] int ano, [FromServices] AppDataContext contexto) =>
+{
+    Folha? folha = contexto.Folhas.FirstOrDefault(f => (f.Funcionario.Cpf == cpf && f.mes == mes && f.ano == ano));
 
+    if (folha == null)
+    {
+        return Results.NotFound($"Não existe nenhuma folha com {cpf}, {mes}, {ano}.");
+    }
+    return Results.Ok(folha);
+});
 
 app.Run();
