@@ -14,4 +14,15 @@ app.MapPost("/funcionario/cadastrar", ([FromBody] Funcionario funcionarioNovo, [
     return Results.Created("", funcionarioNovo);
 });
 
+app.MapPost("/api/folha/cadastrar", ([FromBody] Folha folha, [FromServices] AppDataContext contexto) =>
+{
+    contexto.Add(folha);
+    contexto.SaveChanges();
+    return Results.Created("", folha);
+
+});
+
+
+
+
 app.Run();
