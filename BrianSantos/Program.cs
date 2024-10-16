@@ -1,5 +1,6 @@
 using BrianSantos.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDataContext>();
@@ -14,15 +15,25 @@ app.MapPost("/funcionario/cadastrar", ([FromBody] Funcionario funcionarioNovo, [
     return Results.Created("", funcionarioNovo);
 });
 
-app.MapPost("/api/folha/cadastrar", ([FromBody] Folha folha, [FromServices] AppDataContext contexto) =>
+app.MapPost("/folha/cadastrar", ([FromBody] Folha folha, [FromServices] AppDataContext contexto) =>
 {
-    contexto.Add(folha);
+    Funcionario? funcionarioAssociado = contexto.Funcionarios.Find(folha.FuncionarioId);
+    if(funcionarioAssociado == null){
+        return Results.NotFound("Erro, Funcionario não existe!");
+    }
+    contexto.Folhas.Add(folha);
     contexto.SaveChanges();
     return Results.Created("", folha);
 
 });
 
 
+app.MapGet("/folha/listar", ([FromServices] AppDataContext contexto) =>
+{
+    List<Folha> folhas = contexto.Folhas.ToList();
+    return Results.Ok(folhas);
 
+
+});
 
 app.Run();
